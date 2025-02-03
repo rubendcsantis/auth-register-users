@@ -11,10 +11,17 @@ class IsAdmin
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Closure(Request): (Response) $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        $userAuth = auth('api')->user();
+        if ($userAuth && $userAuth->role === 'admin') {
+            return $next($request);
+        } else {
+            return response()->json(['error' => 'No admin user'], Response::HTTP_UNAUTHORIZED);
+        }
+
+
     }
 }

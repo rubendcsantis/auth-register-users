@@ -23,6 +23,8 @@ Route::middleware([IsUserAuth::class])->group(function () {
         Route::get('/posts/{id}', [PostController::class, 'getPost']);
         Route::put('/posts/{id}', [PostController::class, 'updatePost']);
         Route::delete('/posts/{id}', [PostController::class, 'deletePost']);
+        Route::get('users', [AuthController::class, 'index']);
+        Route::put('/users/{id}', [AuthController::class, 'updateUser']);
     });
 });
 

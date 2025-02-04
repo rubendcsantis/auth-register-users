@@ -13,6 +13,48 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
+    public function index(){
+        $users = User::all();
+
+        if($users->isEmpty()){
+            return response()->json(['message'=>'No posts found.'],404);
+        }
+
+        return response()->json($users);
+    }
+
+    public function updateUser(Request $request, $id){
+        $user = User::find($id);
+
+        if(is_null($user)){
+            return response()->json(['message'=>'Post not found.'],404);
+        }
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|string|max:255|min:3',
+            'role' => 'required|string|in:user,admin',
+            'email' => 'required|string|email|min:3|max:50',
+            // TODO validate profile
+            // 'password' => 'required|string|min:6|confirmed',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(),400);
+        }
+
+        if ($request->has('name')) {
+            $user->name = $request->get('name');
+        }
+        if ($request->has('email')) {
+            $user->email = $request->get('email');
+        }
+        if ($request->has('role')) {
+            $user->role = $request->get('role');
+        }
+
+        $user->update();
+
+        return response()->json(['message' => 'User updated successfully.']);
+    }
+
     public function register(Request $request){
         $validator = Validator::make($request->all(),[
             'name' => 'required|string|max:255|min:3',

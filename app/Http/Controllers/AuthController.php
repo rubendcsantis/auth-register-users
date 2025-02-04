@@ -91,7 +91,7 @@ class AuthController extends Controller
 
         try {
             if (!$token = auth()->attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+                return response()->json(['error' => 'Invalid Credentials'], 401);
             }
 
             return  $this->respondWithToken($token);

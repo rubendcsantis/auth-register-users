@@ -17,7 +17,7 @@ class AuthController extends Controller
         $users = User::all();
 
         if($users->isEmpty()){
-            return response()->json(['message'=>'No posts found.'],404);
+            return response()->json(['message'=>'No users found.'],404);
         }
 
         return response()->json($users);
@@ -27,12 +27,12 @@ class AuthController extends Controller
         $user = User::find($id);
 
         if(is_null($user)){
-            return response()->json(['message'=>'Post not found.'],404);
+            return response()->json(['message'=>'User not found.'],404);
         }
         $validator = Validator::make($request->all(),[
-            'name' => 'required|string|max:255|min:3',
-            'role' => 'required|string|in:user,admin',
-            'email' => 'required|string|email|min:3|max:50',
+            'name' => 'sometimes|string|max:255|min:3',
+            'role' => 'sometimes|string|in:user,admin',
+            'email' => 'sometimes|string|email|min:3|max:50',
             // TODO validate profile
             // 'password' => 'required|string|min:6|confirmed',
         ]);

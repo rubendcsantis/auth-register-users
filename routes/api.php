@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsUserAuth;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 // Public routes
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::get('historico', [HistoryController::class, 'index']);
+Route::post('analisis', [HistoryController::class, 'analizarDatos']);
 
 // Private routes
 Route::middleware([IsUserAuth::class])->group(function () {
